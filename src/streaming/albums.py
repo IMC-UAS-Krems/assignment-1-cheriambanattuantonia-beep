@@ -6,3 +6,26 @@ Implement the Album class for collections of AlbumTrack objects.
 Classes to implement:
   - Album
 """
+
+from .artists import Artist
+
+class Album:
+    def __init__(self,album_id,title,artist,release_year):
+        self.album_id=album_id
+        self.title=title
+        self.artist=artist
+        self.release_year=release_year
+        self.tracks=[]
+    def track_ids(self):
+        return {t.track_id for t in self.tracks}
+
+    def add_track(self,track):
+        track.album=self
+        self.tracks.append(track)
+        self.tracks.sort(key=lambda t: t.track_number)
+
+    def duration_seconds(self):
+        return sum(t.duration for t in self.tracks)
+
+
+
