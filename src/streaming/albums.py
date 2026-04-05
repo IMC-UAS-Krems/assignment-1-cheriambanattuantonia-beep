@@ -7,8 +7,6 @@ Classes to implement:
   - Album
 """
 
-from .artists import Artist
-
 class Album:
     def __init__(self,album_id,title,artist,release_year):
         self.album_id=album_id
