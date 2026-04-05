@@ -8,8 +8,6 @@ Classes to implement:
   - StreamingPlatform
 """
 
-from .playlists import Playlist
-
 
 class StreamingPlatform:
     def __init__(self, name):
