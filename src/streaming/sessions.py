@@ -7,9 +7,6 @@ Classes to implement:
   - ListeningSession
 """
 
-from .users import User
-from .tracks import Track
-from datetime import datetime
 
 class ListeningSession:
     def __init__(self,session_id,user,track,timestamp,duration):
