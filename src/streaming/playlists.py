@@ -8,7 +8,6 @@ Classes to implement:
     - CollaborativePlaylist
 """
 
-from .users import User
 
 class Playlist:
     def __init__(self, playlist_id,name, owner):
