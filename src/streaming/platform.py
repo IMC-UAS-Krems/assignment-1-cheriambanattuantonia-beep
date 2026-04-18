@@ -37,16 +37,16 @@ class StreamingPlatform:
     def add_session(self, session):
         self.sessions.append(session)
 
-"""calculate total listening time in (minutes) for all sessions within a given time window[start,end]"""
+    """calculate total listening time in (minutes) for all sessions within a given time window[start,end]"""
     def total_listening_time_minutes(self, start, end):
         total = 0
         for s in self.sessions:
             if start <= s.timestamp <= end:
                 total += s.duration_listened_seconds
         return total / 60
-"""
-computes average number of unique tracks listened to by premiumusers within the last days
-"""
+    """
+    computes average number of unique tracks listened to by premiumusers within the last days
+    """
     def avg_unique_tracks_per_premium_user(self, days=30):
         from datetime import datetime, timedelta
         from streaming.users import PremiumUser
