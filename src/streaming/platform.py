@@ -37,13 +37,16 @@ class StreamingPlatform:
     def add_session(self, session):
         self.sessions.append(session)
 
+"""calculate total listening time in (minutes) for all sessions within a given time window[start,end]"""
     def total_listening_time_minutes(self, start, end):
         total = 0
         for s in self.sessions:
             if start <= s.timestamp <= end:
                 total += s.duration_listened_seconds
         return total / 60
-
+"""
+computes average number of unique tracks listened to by premiumusers within the last days
+"""
     def avg_unique_tracks_per_premium_user(self, days=30):
         from datetime import datetime, timedelta
         from streaming.users import PremiumUser
@@ -67,6 +70,9 @@ class StreamingPlatform:
         return sum(counts) / len(counts)
 
     def track_with_most_distinct_listeners(self):
+        """
+        Return the track listened to by the highest number of distinct users
+        """
         if not self.sessions:
             return None
 
@@ -79,6 +85,9 @@ class StreamingPlatform:
         return max(result, key=lambda t: len(result[t]))
 
     def avg_session_duration_by_user_type(self):
+        """
+        calcualtes average session duration per user type and return results sorted from highest to lowest
+        """
         data = {}
 
         for s in self.sessions:
@@ -91,6 +100,9 @@ class StreamingPlatform:
         return sorted(result, key=lambda x: x[1], reverse=True)
 
     def total_listening_time_underage_sub_users_minutes(self, age_threshold=18):
+        """
+        calculate total lsitening time(minutes) for familymember users under a specified age threshhold
+        """
         from streaming.users import FamilyMember
 
         total = 0
@@ -105,6 +117,9 @@ class StreamingPlatform:
         return self.users
 
     def top_artists_by_listening_time(self, n=3):
+        """
+        return top N ranked by total lsitening time(minutes) only song tracks are considered
+        """
         from streaming.tracks import Song
 
         result = {}
@@ -117,6 +132,9 @@ class StreamingPlatform:
         return [(a, t / 60) for a, t in sorted_artists[:n]]
 
     def user_top_genre(self, user_id):
+        """
+        identify the genre a user listens to the most and return it along with percentage of total listening time
+        """
         user = next((u for u in self.users if u.user_id == user_id), None)
         if not user:
             return None
@@ -138,6 +156,9 @@ class StreamingPlatform:
         return (top, pct)
 
     def collaborative_playlists_with_many_artists(self, threshold=3):
+        """
+        return collaborative playlists containing tracks from more than threshhold distinct artists
+        """
         result = []
 
         for p in self.playlists:
@@ -149,6 +170,9 @@ class StreamingPlatform:
         return result
 
     def avg_tracks_per_playlist_type(self):
+        """
+        calculate average number of tracks for standard playlist,collaborative playlist
+        """
         from streaming.playlists import CollaborativePlaylist, Playlist
         normal = [p for p in self.playlists if isinstance(p, Playlist) and not isinstance(p, CollaborativePlaylist)]
         collab = [p for p in self.playlists if isinstance(p, CollaborativePlaylist)]
@@ -159,6 +183,9 @@ class StreamingPlatform:
         }
 
     def users_who_completed_albums(self):
+        """
+        defines different types of playable content on the platform,including songs,podcasts, and audiobooks
+        """
         result = []
 
         for u in self.users:
