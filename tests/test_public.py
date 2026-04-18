@@ -144,7 +144,7 @@ class TestAvgSessionDurationByType:
 
     # TODO: Add tests to verify all user types are present and have correct averages.
     def test_all_user_types_present(self, platform: StreamingPlatform) -> None:
-        result = platform.avg_sessions_duration_by_user_type()
+        result = platform.avg_session_duration_by_user_type()
         assert result == []
 
 
